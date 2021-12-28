@@ -3,6 +3,7 @@ from marshmallow import ValidationError
 from http import HTTPStatus
 from datetime import timedelta
 
+import config
 from schema.schema import RequestSchema
 
 app = Flask(__name__)
@@ -81,4 +82,4 @@ def rate():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(threaded=True, host='0.0.0.0', debug=config.DEBUG)
