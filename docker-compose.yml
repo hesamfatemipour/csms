@@ -1,0 +1,20 @@
+version: '3.7'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: server
+    expose:
+      - 5000
+    networks:
+      server_network_net:
+        ipv4_address: 10.0.1.12
+
+networks:
+  server_network_net:
+    driver: bridge
+    name: server_network
+    ipam:
+      config:
+        - subnet: 10.0.1.0/24

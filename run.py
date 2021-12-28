@@ -11,9 +11,20 @@ app = Flask(__name__)
 def validate_schema(data):
     schema = RequestSchema()
     try:
-        return schema.load(data)
+        return schema.load(data)  # for type validation
     except ValidationError as e:
         return jsonify(e.messages), HTTPStatus.BAD_REQUEST
+
+
+def validate_rate_values(data):  # for value validation
+    assert data['energy'] > 0
+    assert data['time'] > 0
+    assert data['transaction'] > 0
+
+
+def validate_cdr_values(data):
+    assert data['meter_stop'] > data['meter_start']
+    assert data['timestamp_stop'] > data['timestamp_start']
 
 
 def calculate_overall(data):
@@ -58,6 +69,8 @@ def rate():
             }
     """
     data = validate_schema(request.get_json())
+    validate_rate_values(data.get('rate'))
+    validate_cdr_values(data.get('cdr'))
     energy_fee, time, service_fee, overall = calculate_overall(data=data)
     return jsonify({'overall': round(overall, 2),
                     "components": {

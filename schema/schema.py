@@ -10,8 +10,8 @@ class RateSchema(Schema):
 class CDRSchema(Schema):
     meter_start = fields.Float(required=True, data_key='meterStart')
     meter_stop = fields.Float(required=True, data_key='meterStop')
-    timestamp_start = fields.DateTime(required=True, data_key='timestampStart')
-    timestamp_stop = fields.DateTime(required=True, data_key='timestampStop')
+    timestamp_start = fields.DateTime(required=True, data_key='timestampStart', format="%Y-%m-%dT%H:%M:%S%z")
+    timestamp_stop = fields.DateTime(required=True, data_key='timestampStop', format="%Y-%m-%dT%H:%M:%S%z")
 
 
 class RequestSchema(Schema):
